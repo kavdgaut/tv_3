@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Translate v3 </title>
+    <style>
+        body {
+            
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+           
+            
+        }
+        
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            box-shadow: 0 10px 50px#00000070;
+        box-shadow: 0 20px 15px 0 rgba(0,0,0,0.25);
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        padding: 1rem;
+        text-shadow: 0 0 20px #dbdf1b70;
+        padding-top: 5px;
+        font-family: 'Gochi Hand', cursive;
+        }
+        
+        main {
+            padding: 20px;
+            
+        }
+        
+        #demoSection {
+            margin-top: 20px;
+            
+        }
+        
+        #inputContainer {
+            margin-bottom: 20px;
+            
+        }
+        
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin-bottom: 10px;
+            padding: 10px;
+            box-sizing: border-box;
+            
+        }
+        
+        #translateButton {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        
+        #translateButton:hover {
+            background-color: #0056b3;
+        }
+        
+        #outputContainer {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0 20px 15px 0 rgba(0,0,0,0.25);
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        padding: 1rem;
+        text-shadow: 0 0 20px #dbdf1b70;
+        padding-top: 5px;
+        font-family: 'Gochi Hand', cursive;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        #translate-button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        
+        #translate-button {
+            background-color: #0056b3;
+        }
+        
+        #translatedText {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+        
+        .select_web{
+       
+        box-shadow: 0 20px 15px 0 rgba(0,0,0,0.25);
+        background-color: #333;
+        color: #fff;
+        padding: 1rem;
+        font-family: 'Gochi Hand', cursive;
+        border: 2px solid gray;
+        }
+    </style>
+</head>
+<body>
+    
+    
+    <header>
+        <h1>Translate V3 AI </h1>
+        <p>Translate and vocalize speech seamlessly!</p>
+    </header>
+    <main>
+     
+
+<section id="demoSection">
+           
+            <div id="inputContainer">
+                <h1>Speech Translation</h1>
+                
+                <select class="select_web" id="list" onchange="getSelectValue();">
+       
+                </select>
+    <!-- <button id="translate-button">Translate</button> -->
+    <div id="translation-result"></div>
+    <div>
+    <h2 style="font-size:50px;">Translated Text:</h2>
+    <h1>{{ translated_text }}</h1></div>
+
+    
+</div>
+</section>
+</main>
+<footer>
+<p> 2024 Translate V3 AI </p>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+const languages = [
+            ['Afrikaans', 'af'], ['Albanian', 'sq'], ['Amharic', 'am'], ['Arabic', 'ar'], ['Armenian', 'hy'],
+            ['Azerbaijani', 'az'], ['Basque', 'eu'], ['Belarusian', 'be'], ['Bengali', 'bn'], ['Bosnian', 'bs'],
+            ['Bulgarian', 'bg'], ['Catalan', 'ca'], ['Cebuano', 'ceb'], ['Chichewa', 'ny'], ['Chinese (Simplified)', 'zh-cn'],
+            ['Chinese (Traditional)', 'zh-tw'], ['Corsican', 'co'], ['Croatian', 'hr'], ['Czech', 'cs'], ['Danish', 'da'],
+            ['Dutch', 'nl'], ['English', 'en'], ['Esperanto', 'eo'], ['Estonian', 'et'], ['Filipino', 'tl'], ['Finnish', 'fi'],
+            ['French', 'fr'], ['Frisian', 'fy'], ['Galician', 'gl'], ['Georgian', 'ka'], ['German', 'de'], ['Greek', 'el'],
+            ['Gujarati', 'gu'], ['Haitian Creole', 'ht'], ['Hausa', 'ha'], ['Hawaiian', 'haw'], ['Hebrew', 'he'],
+            ['Hindi', 'hi'], ['Hmong', 'hmn'], ['Hungarian', 'hu'], ['Icelandic', 'is'], ['Igbo', 'ig'], ['Indonesian', 'id'],
+            ['Irish', 'ga'], ['Italian', 'it'], ['Japanese', 'ja'], ['Javanese', 'jw'], ['Kannada', 'kn'], ['Kazakh', 'kk'],
+            ['Khmer', 'km'], ['Korean', 'ko'], ['Kurdish (Kurmanji)', 'ku'], ['Kyrgyz', 'ky'], ['Lao', 'lo'], ['Latin', 'la'],
+            ['Latvian', 'lv'], ['Lithuanian', 'lt'], ['Luxembourgish', 'lb'], ['Macedonian', 'mk'], ['Malagasy', 'mg'],
+            ['Malay', 'ms'], ['Malayalam', 'ml'], ['Maltese', 'mt'], ['Maori', 'mi'], ['Marathi', 'mr'], ['Mongolian', 'mn'],
+            ['Myanmar (Burmese)', 'my'], ['Nepali', 'ne'], ['Norwegian', 'no'], ['Odia', 'or'], ['Pashto', 'ps'],
+            ['Persian', 'fa'], ['Polish', 'pl'], ['Portuguese', 'pt'], ['Punjabi', 'pa'], ['Romanian', 'ro'], ['Russian', 'ru'],
+            ['Samoan', 'sm'], ['Scots Gaelic', 'gd'], ['Serbian', 'sr'], ['Sesotho', 'st'], ['Shona', 'sn'], ['Sindhi', 'sd'],
+            ['Sinhala', 'si'], ['Slovak', 'sk'], ['Slovenian', 'sl'], ['Somali', 'so'], ['Spanish', 'es'], ['Sundanese', 'su'],
+            ['Swahili', 'sw'], ['Swedish', 'sv'], ['Tajik', 'tg'], ['Tamil', 'ta'], ['Telugu', 'te'], ['Thai', 'th'],
+            ['Turkish', 'tr'], ['Ukrainian', 'uk'], ['Urdu', 'ur'], ['Uyghur', 'ug'], ['Uzbek', 'uz'], ['Vietnamese', 'vi'],
+            ['Welsh', 'cy'], ['Xhosa', 'xh'], ['Yiddish', 'yi'], ['Yoruba', 'yo'], ['Zulu', 'zu']
+        ];
+
+        const select = document.getElementById('list');
+
+        languages.forEach(([name, code]) => {
+            const option = document.createElement('option');
+            option.value = code;
+            option.text = name;
+            select.appendChild(option);
+        });
+
+        // 
+        
+        function getSelectValue() {
+            var selectedValue = document.getElementById("list").value;
+            console.log(selectedValue);
+
+            // Make an AJAX request to the Flask server
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/translate", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.send(JSON.stringify({ selectedValue: selectedValue }));
+        }
+
+// 
+        $(document).ready(function() {
+            $('#translate-button').click(function() {
+                $.ajax({
+                    type: 'POST',
+                    url: '/translate',
+                    success: function(response) {
+                        $('#translation-result').text(response.translation);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
